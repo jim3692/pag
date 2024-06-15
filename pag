@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -e
+
+GLOBAL_PAG_ROOT="$(cd -- "$(dirname "$0")" > /dev/null 2>&1 ; pwd -P)"
+
+trap "echo 'An unexpected error occurred!' >/dev/stderr ; exit 1" SIGHUP
+
+source "$GLOBAL_PAG_ROOT/config.sh"
+source "$GLOBAL_PAG_ROOT/lib.sh"
+
+function global.install() {
+	grouped=$(lib.groupByProvider $@)
+	for providerName in $(ls $grouped); do
+		IMPORT_OR_FAIL=1 lib.importProvider "$provider"
+		install $(cat "$grouped/$providerName")
+	done
+}
+
+function global.upgrade() {
+	for provider in $(lib.getAllProviders); do
+		lib.importProvider "$provider" || {
+			echo "Skipping provider '$provider', as it's not supported by your system..."
+			continue
+		}
+		upgrade
+	done
+}
+
+lib.validateAllProviders
+
+case "$1" in
+	i|install)
+		shift
+		global.install $@
+	;;
+	u|upgrade)
+		shift
+		global.upgrade $@
+	;;
+	*)
+		global.printHelp
+		exit 1
+	;;
+esac
+
+lib.clearTempFiles
