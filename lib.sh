@@ -125,7 +125,6 @@ function lib.currentProvider.registerPackages() {
 	) | awk NF | sort | uniq >"$packagesFile"
 
 	cat "$packagesFile" >"$GLOBAL_REGISTRIES_ROOT/$global_currentProviderName"
-	cat $packagesFile >/dev/stderr
 }
 
 function lib.currentProvider.getInstalledPackages () {
