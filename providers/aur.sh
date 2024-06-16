@@ -7,5 +7,5 @@ function install() {
 }
 
 function upgrade() {
-	yay -Syu
+	yay -Sua
 }
