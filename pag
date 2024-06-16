@@ -27,6 +27,18 @@ function global.upgrade() {
 	done
 }
 
+function global.printHelp() {
+	echo "Usage: $0 [options...] <package>"
+	echo " i, install <package>  Install a package"
+	echo " u, upgrade            Upgrade all packages"
+	echo " h, help               Print this help message"
+	echo
+	echo "The <package> parameter should be <provider name>/<package name>"
+	echo "Example: arch/neofetch"
+	echo
+	echo "Natively supported providers: arch, aur, nix"
+}
+
 lib.validateAllProviders
 
 case "$1" in
@@ -37,6 +49,9 @@ case "$1" in
 	u|upgrade)
 		shift
 		global.upgrade $@
+	;;
+	h|help)
+		global.printHelp
 	;;
 	*)
 		global.printHelp
