@@ -53,3 +53,8 @@ Natively supported providers: arch, aur, nix
 - For providers that cannot natively track their installed packages for easy updates. Check `providers/nix.sh` as a reference.
   - `lib.currentProvider.registerPackages`: Store the packages passed to it, as parameters, to the internal pag's registry
   - `lib.currentProvider.getInstalledPackages`: Return the list of packages from the pag's internal provider's registry
+
+# Planned Features
+
+- [ ] Support for hooks before/after install/upgrade
+- [ ] Ask `sudo` password only once
